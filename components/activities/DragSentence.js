@@ -110,16 +110,16 @@ export default function DragSentence({ sentences }) {
             </div>
 
             {!g.solved && (
-              <div className="flex gap-2">
-                <button onClick={() => checkSentence(si)}
-                  className="bg-sky-400 hover:bg-sky-500 text-white font-bold text-sm px-4 py-2 rounded-full transition-all">
-                  ✓ Kontrol Et
-                </button>
-                <button onClick={() => resetSentence(si)}
-                  className="bg-slate-100 hover:bg-slate-200 text-slate-500 font-bold text-sm px-4 py-2 rounded-full transition-all">
-                  ↩ Sıfırla
-                </button>
-              </div>
+              <div className="flex gap-2 flex-wrap">
+  <button onClick={() => checkSentence(si)}
+    className="bg-sky-400 hover:bg-sky-500 text-white font-bold text-sm px-4 py-2 rounded-full transition-all">
+    ✓ Kontrol Et
+  </button>
+  <button onClick={() => resetSentence(si)}
+    className="bg-slate-100 hover:bg-slate-200 text-slate-500 font-bold text-sm px-4 py-2 rounded-full transition-all">
+    ↩ Sıfırla
+  </button>
+</div>
             )}
 
             {g.error && <div className="text-red-500 font-bold text-sm mt-2">❌ Kelime sırası yanlış, tekrar dene!</div>}

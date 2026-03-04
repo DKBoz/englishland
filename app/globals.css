@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 
+html {
+  font-family: 'Nunito', sans-serif;
+}
+
 body {
   background: #f0f4ff;
   min-height: 100vh;
