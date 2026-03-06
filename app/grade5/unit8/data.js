@@ -73,39 +73,39 @@ export const story = {
   nodes: [
     {
       id: 0, chapter: "Bölüm 1", emoji: "✈️",
-      text: "It's the first day of summer holiday! Ali's family arrives at the airport. The plane leaves in 2 hours. Ali sees two signs:\n\n🔵 Duty Free Shop – buy souvenirs!\n🟡 Departure Lounge – relax before your flight!",
+      text: "It's the first day of summer holiday! Ali's family arrives at the airport. A shop assistant sees Ali and says:\n\n'Hello! Can I help you?'\n\nHow does Ali respond politely?",
       choices: [
-        { text: "🛍️ Go to the Duty Free Shop", next: 1, good: true, stars: 3 },
-        { text: "😴 Go straight to the lounge", next: 2, good: false, stars: 1 },
+        { text: '"Yes please! Where is the departure gate?"', next: 1, good: true, stars: 3 },
+        { text: '"GATE! WHERE!"', next: 2, good: false, stars: 0 },
       ]
     },
     {
-      id: 1, chapter: "Bölüm 2 — İyi Seçim!", emoji: "🎁",
-      text: "Great choice! Ali buys a souvenir magnet for his teacher. The shopkeeper asks: 'Would you like a bag?' How does Ali answer politely?",
+      id: 1, chapter: "Bölüm 2 — Harika!", emoji: "😊",
+      text: "Great manners! The assistant smiles and points the way.\n\nAt the gift shop, Ali wants to buy a souvenir magnet. It costs 5 euros. He gives the cashier 10 euros. What does he say?",
       choices: [
-        { text: "\"Yes, please!\"", next: 3, good: true, stars: 4 },
-        { text: "\"Give bag now.\"", next: 4, good: false, stars: 1 },
+        { text: '"Here you are. Can I have the change, please?"', next: 3, good: true, stars: 4 },
+        { text: '"Give me my money back."', next: 4, good: false, stars: 1 },
       ]
     },
     {
-      id: 2, chapter: "Bölüm 2 — Dikkat!", emoji: "😴",
-      text: "Ali falls asleep and almost misses the flight! His mum wakes him up just in time. At the gate, the officer asks: 'Do you have your passport?'",
+      id: 2, chapter: "Bölüm 2 — Dikkat!", emoji: "😬",
+      text: "The assistant looks confused. Ali's mum reminds him to speak politely.\n\nAt the gate, the officer asks: 'Do you have your passport?'\n\nWhat does Ali say?",
       choices: [
-        { text: "\"Yes, here it is!\"", next: 3, good: true, stars: 2 },
-        { text: "\"I don't know where it is!\"", next: 4, good: false, stars: 0 },
+        { text: '"Yes, here it is. Thank you!"', next: 3, good: true, stars: 2 },
+        { text: '"I don\'t know where it is!"', next: 4, good: false, stars: 0 },
       ]
     },
     {
       id: 3, chapter: "Bölüm 3 — On the Plane!", emoji: "🛫",
-      text: "The plane takes off! The flight attendant asks: 'What would you like to drink?' Ali wants apple juice. What does he say?",
+      text: "The plane takes off! The flight attendant comes and asks:\n\n'What would you like to drink?'\n\nAli wants apple juice. What does he say?",
       choices: [
-        { text: "\"Apple juice, please.\"", next: 5, good: true, stars: 4 },
-        { text: "\"Apple juice!\"", next: 5, good: false, stars: 2 },
+        { text: '"Apple juice, please!"', next: 5, good: true, stars: 4 },
+        { text: '"Apple juice." (no please)', next: 5, good: false, stars: 2 },
       ]
     },
     {
-      id: 4, chapter: "Tekrar Dene!", emoji: "😬",
-      text: "Oops! Making mistakes helps us learn. Let's try again! Remember: being polite and prepared is very important when travelling!",
+      id: 4, chapter: "Tekrar Dene!", emoji: "😅",
+      text: "Oops! Remember — being polite in English is very important!\n\nKey phrases to remember:\n✅ Please\n✅ Thank you\n✅ Can I have...?\n✅ Here you are\n\nLet's try again!",
       choices: [
         { text: "🔄 Baştan Başla", next: 0, good: true, stars: 0, restart: true },
       ]
@@ -113,7 +113,7 @@ export const story = {
     {
       id: 5, chapter: "🏆 Harika Son!", emoji: "🎉",
       isEnd: true,
-      text: "Ali has an AMAZING holiday! He swam in the sea, explored the old city, visited a museum, and even used his English to talk to tourists!\n\n'İngilizce çok işe yaradı!' he said happily. 🌟",
+      text: "Ali arrives in Antalya! 🌊☀️\n\nHe swam in the sea, explored the old city, visited a museum, and used his English to talk to tourists!\n\n'İngilizce çok işe yaradı!' he said happily.\n\nYou helped Ali have an amazing holiday! 🌟",
       choices: []
     },
   ]
