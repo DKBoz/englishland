@@ -1,4 +1,5 @@
 'use client'
+import ReadingListen from '@/components/activities/ReadingListen'
 import MiniStory from '@/components/activities/MiniStory'
 import DragSentence from '@/components/activities/DragSentence'
 import MatchGame from '@/components/activities/MatchGame'
@@ -18,6 +19,7 @@ export default function Unit8Page() {
     { label: "🧩 Match", component: <MatchGame pairs={matchPairs} /> },
     { label: "🖱️ Sentences", component: <DragSentence sentences={dragSentences} /> },
     { label: "📖 Story", component: <MiniStory nodes={story.nodes} /> },
+    { label: "🎧 Listen", component: <ReadingListen /> },
   ]
 
   return (
