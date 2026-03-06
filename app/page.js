@@ -1,10 +1,11 @@
+'use client'
 import Link from 'next/link'
 
 const grades = [
-  { num: 5, emoji: '🎒', from: 'from-red-400', to: 'to-orange-400', href: '/grade5', ready: true },
-  { num: 6, emoji: '📐', from: 'from-orange-400', to: 'to-yellow-400', href: '/grade6', ready: false },
-  { num: 7, emoji: '🔭', from: 'from-green-400', to: 'to-teal-400', href: '/grade7', ready: false },
-  { num: 8, emoji: '🏆', from: 'from-blue-400', to: 'to-purple-400', href: '/grade8', ready: false },
+  { num: 5, emoji: '🎒', color: '#FF6B6B', bg: '#fff0f0', href: '/grade5', ready: true },
+  { num: 6, emoji: '📐', color: '#FF9F43', bg: '#fff4e6', href: '/grade6', ready: false },
+  { num: 7, emoji: '🔭', color: '#26de81', bg: '#f0fff6', href: '/grade7', ready: false },
+  { num: 8, emoji: '🏆', color: '#45aaf2', bg: '#f0f8ff', href: '/grade8', ready: false },
 ]
 
 const features = [
@@ -18,70 +19,110 @@ const features = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col">
+    <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
       {/* HEADER */}
-      <header className="bg-gradient-to-r from-slate-800 to-slate-900 px-6 py-4 flex items-center gap-3">
-        <span className="text-4xl">🌍</span>
+      <header className="el-topbar">
+        <span style={{ fontSize: '2.2rem' }}>🌍</span>
         <div>
-          <h1 className="text-white font-extrabold text-2xl leading-none"
-            style={{ fontFamily: 'var(--font-baloo)' }}>
+          <div style={{
+            color: '#fff', fontFamily: "'Baloo 2', cursive",
+            fontSize: '1.6rem', fontWeight: 800, lineHeight: 1
+          }}>
             EnglishLand
-          </h1>
-          <p className="text-slate-400 text-xs font-bold mt-1">MEB 2025-2026 • Türkiye Yüzyılı Maarif Modeli</p>
+          </div>
+          <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.72rem', fontWeight: 700, marginTop: 3 }}>
+            MEB 2025-2026 • Türkiye Yüzyılı Maarif Modeli
+          </div>
         </div>
       </header>
 
       {/* HERO */}
-      <section className="text-center px-6 py-12 bg-gradient-to-b from-slate-900 to-slate-800">
-        <div className="inline-block bg-yellow-400/20 border border-yellow-400/40 text-yellow-300 text-sm font-bold px-4 py-2 rounded-full mb-6">
+      <section style={{
+        background: 'linear-gradient(160deg, #1e1e2e 0%, #2d2d4e 100%)',
+        padding: '48px 24px 40px',
+        textAlign: 'center',
+      }}>
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 6,
+          background: 'rgba(255,211,61,0.15)', border: '1.5px solid rgba(255,211,61,0.35)',
+          borderRadius: 50, padding: '6px 18px',
+          color: '#FFD93D', fontSize: '0.8rem', fontWeight: 800, marginBottom: 20
+        }}>
           🚀 Demo Sürümü — Daha fazlası geliyor!
         </div>
-        <h2 className="text-4xl md:text-5xl font-extrabold text-white leading-tight"
-          style={{ fontFamily: 'var(--font-baloo)' }}>
-          İngilizce öğrenmek
-          <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-400">
-            hiç bu kadar eğlenceli
-          </span>
-          <br />
+
+        <h1 style={{
+          fontFamily: "'Baloo 2', cursive",
+          fontSize: 'clamp(2rem, 6vw, 3.2rem)',
+          fontWeight: 800, color: '#fff', lineHeight: 1.15,
+        }}>
+          İngilizce öğrenmek<br />
+          <span style={{ color: '#FF6B6B' }}>hiç bu kadar eğlenceli</span><br />
           olmamıştı!
-        </h2>
-        <p className="text-slate-400 font-bold mt-4 text-lg">
+        </h1>
+
+        <p style={{ color: 'rgba(255,255,255,0.5)', fontWeight: 700, marginTop: 14, fontSize: '1rem' }}>
           Sınıfını seç ve öğrenmeye başla 👇
         </p>
       </section>
 
       {/* GRADE CARDS */}
-<section className="px-4 py-10 w-full">
-  <p className="text-center text-slate-400 font-bold text-sm mb-6 tracking-widest uppercase">
-    📚 Sınıfını Seç
-  </p>
-  <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
+      <section style={{ padding: '32px 20px', flex: 1 }}>
+        <p style={{
+          textAlign: 'center', color: '#aaa', fontWeight: 800,
+          fontSize: '0.75rem', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: 20
+        }}>
+          📚 Sınıfını Seç
+        </p>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: 16,
+          maxWidth: 480,
+          margin: '0 auto',
+        }}>
           {grades.map(g => (
             g.ready ? (
-              <Link key={g.num} href={g.href}
-                className="bg-white rounded-3xl p-6 text-center shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-200 border-2 border-transparent hover:border-orange-200">
-                <span className="text-5xl block mb-3">{g.emoji}</span>
-                <div className={`text-2xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r ${g.from} ${g.to}`}
-                  style={{ fontFamily: 'var(--font-baloo)' }}>
-                  {g.num}. Sınıf
-                </div>
-                <div className="text-slate-400 text-xs font-bold mt-1">Ortaokul {g.num - 4}</div>
-                <div className="mt-3 bg-green-100 text-green-600 text-xs font-bold py-1 px-3 rounded-full inline-block">
-                  ✅ Demo Hazır
+              <Link key={g.num} href={g.href} style={{ textDecoration: 'none' }}>
+                <div className="el-card" style={{
+                  textAlign: 'center', cursor: 'pointer',
+                  borderColor: 'transparent',
+                }}
+                  onMouseEnter={e => e.currentTarget.style.borderColor = g.color}
+                  onMouseLeave={e => e.currentTarget.style.borderColor = 'transparent'}
+                >
+                  <span style={{ fontSize: '3rem', display: 'block', marginBottom: 10 }}>{g.emoji}</span>
+                  <div style={{
+                    fontFamily: "'Baloo 2', cursive", fontSize: '1.5rem',
+                    fontWeight: 800, color: g.color
+                  }}>
+                    {g.num}. Sınıf
+                  </div>
+                  <div style={{ color: '#bbb', fontSize: '0.75rem', fontWeight: 700, marginTop: 2 }}>
+                    Ortaokul {g.num - 4}
+                  </div>
+                  <div className="el-badge el-badge-green" style={{ marginTop: 12 }}>
+                    ✅ Demo Hazır
+                  </div>
                 </div>
               </Link>
             ) : (
-              <div key={g.num}
-                className="bg-white/60 rounded-3xl p-6 text-center shadow-md opacity-50 cursor-not-allowed">
-                <span className="text-5xl block mb-3">{g.emoji}</span>
-                <div className="text-2xl font-extrabold text-slate-400"
-                  style={{ fontFamily: 'var(--font-baloo)' }}>
+              <div key={g.num} className="el-card" style={{
+                textAlign: 'center', opacity: 0.45, cursor: 'not-allowed'
+              }}>
+                <span style={{ fontSize: '3rem', display: 'block', marginBottom: 10 }}>{g.emoji}</span>
+                <div style={{
+                  fontFamily: "'Baloo 2', cursive", fontSize: '1.5rem',
+                  fontWeight: 800, color: '#aaa'
+                }}>
                   {g.num}. Sınıf
                 </div>
-                <div className="text-slate-400 text-xs font-bold mt-1">Ortaokul {g.num - 4}</div>
-                <div className="mt-3 bg-slate-100 text-slate-400 text-xs font-bold py-1 px-3 rounded-full inline-block">
+                <div style={{ color: '#bbb', fontSize: '0.75rem', fontWeight: 700, marginTop: 2 }}>
+                  Ortaokul {g.num - 4}
+                </div>
+                <div className="el-badge el-badge-gray" style={{ marginTop: 12 }}>
                   🔒 Yakında
                 </div>
               </div>
@@ -90,17 +131,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FEATURES */}
-      <section className="mt-auto bg-slate-800 px-6 py-8">
-        <div className="grid grid-cols-3 md:grid-cols-6 gap-6 text-center max-w-2xl mx-auto">
+      {/* FEATURES STRIP */}
+      <section style={{
+        background: 'linear-gradient(135deg, #1e1e2e, #2d2d4e)',
+        padding: '28px 24px',
+      }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: 20,
+          maxWidth: 480,
+          margin: '0 auto',
+          textAlign: 'center',
+        }}>
           {features.map(f => (
             <div key={f.label}>
-              <span className="text-3xl block mb-2">{f.icon}</span>
-              <span className="text-slate-400 text-xs font-bold">{f.label}</span>
+              <span style={{ fontSize: '1.8rem', display: 'block', marginBottom: 6 }}>{f.icon}</span>
+              <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', fontWeight: 700 }}>
+                {f.label}
+              </span>
             </div>
           ))}
         </div>
-        <p className="text-center text-slate-500 text-xs mt-6 font-bold">
+        <p style={{
+          textAlign: 'center', color: 'rgba(255,255,255,0.2)',
+          fontSize: '0.75rem', fontWeight: 700, marginTop: 24
+        }}>
           EnglishLand © 2025-2026 • MEB Türkiye Yüzyılı Maarif Modeli
         </p>
       </section>

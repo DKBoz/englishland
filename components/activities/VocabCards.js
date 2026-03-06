@@ -10,23 +10,45 @@ export default function VocabCards({ words }) {
 
   return (
     <div>
-      <h2 className="text-2xl font-extrabold text-slate-800 mb-1">🔤 Vocabulary</h2>
-      <p className="text-slate-400 font-bold text-sm mb-6">Kartlara tıkla → Türkçe'yi gör!</p>
+      <div className="el-section-title">🔤 Vocabulary</div>
+      <div className="el-section-desc">Kartlara tıkla → Türkçe'yi gör!</div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))',
+        gap: 14,
+      }}>
         {words.map((w, i) => (
           <div key={i} onClick={() => toggle(i)}
-            className={`bg-white rounded-2xl p-4 text-center shadow-md cursor-pointer border-2 transition-all duration-200 hover:scale-105
-              ${flipped[i] ? 'border-green-300' : 'border-transparent hover:border-red-200'}`}>
-            <span className="text-4xl block mb-2">{w.emoji}</span>
-            <div className={`font-extrabold text-lg transition-colors ${flipped[i] ? 'text-red-400' : 'text-slate-800'}`}>
+            style={{
+              background: flipped[i] ? '#f5eeff' : '#fff',
+              borderRadius: 20,
+              padding: '18px 12px',
+              textAlign: 'center',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
+              border: `2.5px solid ${flipped[i] ? '#a55eea' : 'transparent'}`,
+              cursor: 'pointer',
+              transition: 'all 0.2s cubic-bezier(.34,1.56,.64,1)',
+              transform: flipped[i] ? 'scale(1.04)' : 'scale(1)',
+            }}>
+            <span style={{ fontSize: '2.4rem', display: 'block', marginBottom: 8 }}>{w.emoji}</span>
+            <div style={{
+              fontFamily: "'Baloo 2', cursive",
+              fontSize: '1rem',
+              fontWeight: 800,
+              color: flipped[i] ? '#a55eea' : '#1e1e2e',
+              transition: 'color 0.2s',
+            }}>
               {w.en}
             </div>
-            {flipped[i] && (
-              <div className="text-green-500 font-bold text-sm mt-1">🇹🇷 {w.tr}</div>
-            )}
-            {!flipped[i] && (
-              <div className="text-slate-300 text-xs mt-1 font-bold">tap me!</div>
+            {flipped[i] ? (
+              <div style={{ color: '#26de81', fontWeight: 800, fontSize: '0.8rem', marginTop: 5 }}>
+                🇹🇷 {w.tr}
+              </div>
+            ) : (
+              <div style={{ color: '#ddd', fontSize: '0.65rem', fontWeight: 700, marginTop: 5 }}>
+                tap!
+              </div>
             )}
           </div>
         ))}

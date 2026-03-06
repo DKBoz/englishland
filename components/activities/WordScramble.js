@@ -60,62 +60,71 @@ export default function WordScramble({ words }) {
 
   return (
     <div>
-      <h2 className="text-2xl font-extrabold text-slate-800 mb-1">🔀 Word Scramble!</h2>
-      <p className="text-slate-400 font-bold text-sm mb-6">Karışık harfleri doğru sıraya diz!</p>
+      <div className="el-section-title">🔀 Word Scramble!</div>
+      <div className="el-section-desc">Karışık harfleri doğru sıraya diz!</div>
 
-      <div className="flex flex-col gap-4">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {gameWords.map((w, wi) => (
-          <div key={wi} className={`bg-white rounded-2xl p-6 shadow-md border-2 transition-all
-            ${w.solved ? 'border-green-300 bg-green-50' : w.error ? 'border-red-300' : 'border-transparent'}`}>
-
-            <div className="flex items-center gap-3 mb-4">
-              <span className="text-3xl">{w.emoji}</span>
+          <div key={wi} style={{
+            background: w.solved ? '#f0fff6' : '#fff',
+            borderRadius: 20,
+            padding: '20px',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
+            border: `2.5px solid ${w.solved ? '#26de81' : w.error ? '#FF6B6B' : 'transparent'}`,
+            transition: 'all 0.2s',
+          }}>
+            {/* CLUE */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+              <span style={{ fontSize: '2.4rem' }}>{w.emoji}</span>
               <div>
-                <div className="font-extrabold text-slate-700">🇹🇷 {w.tr}</div>
-                <div className="text-xs text-slate-400 font-bold">Bu kelimeyi İngilizce yaz!</div>
+                <div style={{ fontWeight: 800, color: '#444' }}>🇹🇷 {w.tr}</div>
+                <div style={{ fontSize: '0.75rem', color: '#bbb', fontWeight: 700 }}>
+                  Bu kelimeyi İngilizce yaz!
+                </div>
               </div>
-              {w.solved && <span className="ml-auto text-green-500 font-extrabold text-lg">✅ {w.word}</span>}
+              {w.solved && (
+                <div style={{ marginLeft: 'auto', color: '#26de81', fontWeight: 800, fontSize: '1rem' }}>
+                  ✅ {w.word}
+                </div>
+              )}
             </div>
 
             {/* ANSWER ROW */}
-            <div className="flex flex-wrap gap-2 min-h-12 border-b-2 border-dashed border-slate-200 pb-3 mb-3">
+            <div style={{
+              display: 'flex', flexWrap: 'wrap', gap: 8,
+              minHeight: 50, borderBottom: '2.5px dashed #e0e0f0',
+              paddingBottom: 12, marginBottom: 12,
+            }}>
               {w.selected.map((letter, si) => (
                 <div key={si} onClick={() => removeLetter(wi, si)}
-                  className="w-10 h-10 rounded-xl bg-purple-500 text-white font-extrabold text-lg flex items-center justify-center cursor-pointer hover:bg-purple-600 transition-all uppercase">
+                  className="el-tile el-tile-placed">
                   {letter}
                 </div>
               ))}
             </div>
 
-            {/* LETTER TILES */}
-            <div className="flex flex-wrap gap-2 mb-4">
+            {/* LETTER POOL */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
               {w.shuffled.map((letter, li) => (
                 <div key={li} onClick={() => pickLetter(wi, li)}
-                  className={`w-10 h-10 rounded-xl border-2 font-extrabold text-lg flex items-center justify-center transition-all uppercase
-                    ${w.usedIndexes.includes(li)
-                      ? 'opacity-0 pointer-events-none'
-                      : 'border-slate-200 bg-slate-50 cursor-pointer hover:border-purple-400 hover:bg-purple-50'}`}>
+                  className={`el-tile ${w.usedIndexes.includes(li) ? 'el-tile-used' : 'el-tile-pool'}`}>
                   {letter}
                 </div>
               ))}
             </div>
 
             {!w.solved && (
-              <div className="flex gap-2">
-                <button onClick={() => checkWord(wi)}
-                  className="bg-green-400 hover:bg-green-500 text-white font-bold text-sm px-4 py-2 rounded-full transition-all">
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button onClick={() => checkWord(wi)} className="el-btn el-btn-green">
                   ✓ Kontrol Et
                 </button>
-                <button onClick={() => resetWord(wi)}
-                  className="bg-slate-100 hover:bg-slate-200 text-slate-500 font-bold text-sm px-4 py-2 rounded-full transition-all">
+                <button onClick={() => resetWord(wi)} className="el-btn el-btn-ghost">
                   ↩ Sıfırla
                 </button>
               </div>
             )}
 
-            {w.error && (
-              <div className="text-red-500 font-bold text-sm mt-2">❌ Tekrar dene!</div>
-            )}
+            {w.error && <div className="el-feedback-bad">❌ Tekrar dene!</div>}
           </div>
         ))}
       </div>

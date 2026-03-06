@@ -16,11 +16,12 @@ export default function MiniStory({ nodes }) {
       if (choice.restart) {
         setCurrentId(0)
         setChosen(null)
+        setTotalStars(0)
       } else {
         setCurrentId(choice.next)
         setChosen(null)
       }
-    }, 800)
+    }, 900)
   }
 
   function restart() {
@@ -33,62 +34,81 @@ export default function MiniStory({ nodes }) {
 
   return (
     <div>
-      <h2 className="text-2xl font-extrabold text-slate-800 mb-1">📖 Interactive Story</h2>
-      <p className="text-slate-400 font-bold text-sm mb-6">Seçimlerini yap, hikayeni yaz!</p>
+      <div className="el-section-title">📖 Interactive Story</div>
+      <div className="el-section-desc">Seçimlerini yap, hikayeni yaz!</div>
 
       {/* STARS */}
-      <div className="bg-yellow-50 border-2 border-yellow-200 rounded-2xl px-4 py-3 flex items-center gap-2 mb-6">
-        <span className="text-xl">⭐</span>
-        <span className="font-extrabold text-yellow-700">{totalStars} yıldız kazandın!</span>
+      <div style={{
+        background: '#fff9db', border: '2px solid #ffe066',
+        borderRadius: 14, padding: '12px 18px',
+        display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20,
+      }}>
+        <span style={{ fontSize: '1.4rem' }}>⭐</span>
+        <span style={{ fontWeight: 800, color: '#9a6f00' }}>
+          {totalStars} yıldız kazandın!
+        </span>
       </div>
 
-      {/* SCENE */}
-      <div className="bg-white rounded-2xl shadow-md overflow-hidden">
+      {/* SCENE CARD */}
+      <div style={{
+        background: '#fff', borderRadius: 24,
+        boxShadow: '0 6px 24px rgba(0,0,0,0.1)',
+        overflow: 'hidden',
+      }}>
 
         {/* CHAPTER HEADER */}
-        <div className="bg-gradient-to-r from-blue-400 to-purple-400 px-6 py-4">
-          <div className="text-white/70 text-xs font-bold uppercase tracking-wide">{node.chapter}</div>
-          <div className="text-4xl mt-1">{node.emoji}</div>
+        <div style={{
+          background: 'linear-gradient(135deg, #45aaf2, #a55eea)',
+          padding: '20px 24px',
+        }}>
+          <div style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.72rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1 }}>
+            {node.chapter}
+          </div>
+          <div style={{ fontSize: '3rem', marginTop: 6 }}>{node.emoji}</div>
         </div>
 
-        <div className="p-6">
+        <div style={{ padding: '24px' }}>
+
           {/* STORY TEXT */}
-          <div className="text-slate-700 font-bold leading-relaxed mb-6 whitespace-pre-line">
+          <div style={{
+            fontWeight: 700, color: '#444', lineHeight: 1.8,
+            fontSize: '0.97rem', marginBottom: 24, whiteSpace: 'pre-line',
+          }}>
             {node.text}
           </div>
 
           {/* END SCREEN */}
           {node.isEnd ? (
-            <div className="text-center">
-              <div className="text-5xl mb-3">🏆</div>
-              <div className="font-extrabold text-slate-800 text-xl mb-2">
+            <div style={{ textAlign: 'center', paddingBottom: 8 }}>
+              <div style={{ fontSize: '3.5rem', marginBottom: 10 }}>🏆</div>
+              <div style={{
+                fontFamily: "'Baloo 2', cursive", fontSize: '1.5rem',
+                fontWeight: 800, color: '#1e1e2e', marginBottom: 6,
+              }}>
                 {totalStars >= 10 ? 'Mükemmel!' : totalStars >= 5 ? 'Çok İyi!' : 'İyi Deneme!'}
               </div>
-              <div className="text-slate-500 font-bold mb-6">
+              <div style={{ color: '#888', fontWeight: 700, marginBottom: 20 }}>
                 Toplam: {totalStars} ⭐
               </div>
-              <button onClick={restart}
-                className="bg-gradient-to-r from-blue-400 to-purple-400 text-white font-extrabold px-8 py-3 rounded-full transition-all hover:scale-105">
+              <button onClick={restart} className="el-btn el-btn-purple">
                 🔄 Tekrar Oyna
               </button>
             </div>
           ) : (
             /* CHOICES */
-            <div className="flex flex-col gap-3">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {node.choices.map((choice, i) => (
                 <button key={i} onClick={() => handleChoice(choice)}
                   disabled={!!chosen}
-                  className={`text-left p-4 rounded-2xl border-2 font-bold text-sm transition-all
-                    ${chosen === choice
-                      ? choice.good
-                        ? 'bg-green-100 border-green-400 text-green-700'
-                        : 'bg-red-100 border-red-400 text-red-700'
-                      : chosen
-                        ? 'bg-slate-50 border-slate-200 text-slate-400 opacity-50'
-                        : 'bg-slate-50 border-slate-200 text-slate-700 hover:border-purple-400 hover:bg-purple-50'}`}>
+                  className={`el-story-choice ${
+                    chosen === choice
+                      ? choice.good ? 'good' : 'bad'
+                      : chosen ? 'disabled' : ''
+                  }`}
+                  style={{ opacity: chosen && chosen !== choice ? 0.45 : 1 }}>
                   {choice.text}
                   {chosen === choice && (
-                    <span className="ml-2">{choice.good ? '✅' : '❌'}</span>
+                    <span style={{ marginLeft: 8 }}>{choice.good ? '✅' : '❌'}</span>
                   )}
                 </button>
               ))}

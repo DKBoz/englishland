@@ -13,66 +13,110 @@ const units = [
 
 export default function Grade5Page() {
   return (
-    <main className="min-h-screen">
+    <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f0f4ff' }}>
 
       {/* TOPBAR */}
-      <header className="bg-gradient-to-r from-slate-800 to-slate-900 px-6 py-4 flex items-center gap-4 shadow-lg">
-        <Link href="/" className="bg-white/10 hover:bg-white/20 text-white text-sm font-bold px-4 py-2 rounded-full transition-all">
-          ← Ana Sayfa
-        </Link>
+      <header className="el-topbar">
+        <Link href="/" className="el-back-btn">← Ana Sayfa</Link>
         <div>
-          <h1 className="text-white font-extrabold text-lg leading-none">🎒 5. Sınıf İngilizce</h1>
-          <p className="text-slate-400 text-xs font-bold mt-1">MEB 2025-2026 • 8 Tema</p>
+          <div style={{
+            fontFamily: "'Baloo 2', cursive", color: '#fff',
+            fontSize: '1.1rem', fontWeight: 800, lineHeight: 1
+          }}>
+            🎒 5. Sınıf İngilizce
+          </div>
+          <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.72rem', fontWeight: 700, marginTop: 3 }}>
+            MEB 2025-2026 • 8 Tema
+          </div>
         </div>
       </header>
 
       {/* HERO */}
-      <section className="bg-gradient-to-r from-red-400 to-orange-400 px-6 py-10 text-center text-white">
-        <h2 className="text-3xl font-extrabold">🎒 5. Sınıf Temaları</h2>
-        <p className="mt-2 font-bold opacity-90">Bir tema seç ve öğrenmeye başla!</p>
+      <section style={{
+        background: 'linear-gradient(135deg, #FF6B6B 0%, #FF9F43 100%)',
+        padding: '32px 24px',
+        textAlign: 'center',
+        color: '#fff',
+      }}>
+        <h1 style={{
+          fontFamily: "'Baloo 2', cursive",
+          fontSize: 'clamp(1.6rem, 5vw, 2.4rem)',
+          fontWeight: 800,
+        }}>
+          🎒 5. Sınıf Temaları
+        </h1>
+        <p style={{ opacity: 0.88, fontWeight: 600, marginTop: 6, fontSize: '0.95rem' }}>
+          Bir tema seç ve öğrenmeye başla!
+        </p>
       </section>
 
-      {/* UNITS GRID */}
-      <section className="px-6 py-10 max-w-4xl mx-auto">
-
-        <div className="bg-yellow-50 border-2 border-yellow-200 rounded-2xl p-4 mb-8 flex gap-3 items-center">
-          <span className="text-2xl">💡</span>
-          <p className="text-sm font-bold text-yellow-800">
+      {/* TIP */}
+      <div style={{ padding: '20px 20px 0', maxWidth: 700, margin: '0 auto', width: '100%' }}>
+        <div style={{
+          background: '#fff9db', border: '2px solid #ffe066',
+          borderRadius: 16, padding: '14px 18px',
+          display: 'flex', alignItems: 'center', gap: 12,
+        }}>
+          <span style={{ fontSize: '1.4rem' }}>💡</span>
+          <p style={{ fontSize: '0.85rem', fontWeight: 700, color: '#7a5f00' }}>
             Demo sürümünde sadece <strong>Tema 8</strong> aktif. Diğer temalar yakında eklenecek!
           </p>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* UNITS */}
+      <section style={{ padding: '20px', maxWidth: 700, margin: '0 auto', width: '100%', flex: 1 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {units.map(u => (
             u.locked ? (
-              <div key={u.num} className="bg-white rounded-2xl p-6 shadow-md opacity-50 cursor-not-allowed flex gap-4 items-start">
-                <span className="text-4xl">{u.emoji}</span>
-                <div className="flex-1">
-                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-1">Tema {u.num}</div>
-                  <div className="font-extrabold text-slate-700">{u.name}</div>
-                  <div className="text-xs text-slate-400 font-bold mt-1">{u.tr}</div>
-                  <div className="text-xs text-slate-400 mt-2">{u.topics}</div>
+              <div key={u.num} style={{
+                background: '#fff', borderRadius: 20, padding: '18px 20px',
+                display: 'flex', alignItems: 'center', gap: 16,
+                opacity: 0.5, cursor: 'not-allowed',
+                boxShadow: '0 3px 12px rgba(0,0,0,0.07)',
+              }}>
+                <span style={{ fontSize: '2.2rem', flexShrink: 0 }}>{u.emoji}</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#bbb', textTransform: 'uppercase', letterSpacing: 1 }}>
+                    Tema {u.num}
+                  </div>
+                  <div style={{ fontWeight: 800, color: '#444', fontSize: '1rem', marginTop: 2 }}>{u.name}</div>
+                  <div style={{ fontSize: '0.75rem', color: '#aaa', fontWeight: 700, marginTop: 2 }}>{u.tr}</div>
+                  <div style={{ fontSize: '0.72rem', color: '#ccc', marginTop: 4 }}>{u.topics}</div>
                 </div>
-                <span className="bg-slate-100 text-slate-400 text-xs font-bold px-3 py-1 rounded-full">🔒 Yakında</span>
+                <div className="el-badge el-badge-gray">🔒 Yakında</div>
               </div>
             ) : (
-              <Link key={u.num} href={u.href}
-                className="bg-white rounded-2xl p-6 shadow-lg border-2 border-transparent hover:border-orange-300 hover:scale-102 transition-all flex gap-4 items-start group">
-                <span className="text-4xl">{u.emoji}</span>
-                <div className="flex-1">
-                  <div className="text-xs font-bold text-orange-400 uppercase tracking-wide mb-1">Tema {u.num} • Demo</div>
-                  <div className="font-extrabold text-slate-800 group-hover:text-orange-500 transition-colors">{u.name}</div>
-                  <div className="text-xs text-slate-400 font-bold mt-1">{u.tr}</div>
-                  <div className="text-xs text-slate-500 mt-2">{u.topics}</div>
+              <Link key={u.num} href={u.href} style={{ textDecoration: 'none' }}>
+                <div style={{
+                  background: '#fff', borderRadius: 20, padding: '18px 20px',
+                  display: 'flex', alignItems: 'center', gap: 16,
+                  boxShadow: '0 4px 20px rgba(255,107,107,0.15)',
+                  border: '2.5px solid #FF6B6B',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s',
+                }}>
+                  <span style={{ fontSize: '2.2rem', flexShrink: 0 }}>{u.emoji}</span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#FF6B6B', textTransform: 'uppercase', letterSpacing: 1 }}>
+                      Tema {u.num} • Demo
+                    </div>
+                    <div style={{ fontWeight: 800, color: '#1e1e2e', fontSize: '1rem', marginTop: 2 }}>{u.name}</div>
+                    <div style={{ fontSize: '0.75rem', color: '#888', fontWeight: 700, marginTop: 2 }}>{u.tr}</div>
+                    <div style={{ fontSize: '0.72rem', color: '#aaa', marginTop: 4 }}>{u.topics}</div>
+                  </div>
+                  <div className="el-badge el-badge-green">▶ Başla</div>
                 </div>
-                <span className="bg-green-100 text-green-600 text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">▶ Başla</span>
               </Link>
             )
           ))}
         </div>
       </section>
 
-      <footer className="text-center text-slate-400 text-xs pb-8 font-bold">
+      <footer style={{
+        textAlign: 'center', color: '#bbb', fontSize: '0.75rem',
+        fontWeight: 700, padding: '24px',
+      }}>
         EnglishLand © 2025-2026 • MEB Türkiye Yüzyılı Maarif Modeli
       </footer>
     </main>

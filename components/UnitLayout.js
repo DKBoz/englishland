@@ -6,40 +6,74 @@ export default function UnitLayout({ title, subtitle, backHref, backLabel, tabs 
   const [activeTab, setActiveTab] = useState(0)
 
   return (
-    <main className="min-h-screen flex flex-col bg-slate-50">
+    <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: '#f0f4ff' }}>
 
       {/* TOPBAR */}
-      <header className="bg-gradient-to-r from-slate-800 to-slate-900 px-4 py-3 flex items-center gap-3 sticky top-0 z-50 shadow-lg">
-        <Link href={backHref}
-          className="bg-white/10 hover:bg-white/20 text-white text-sm font-bold px-3 py-2 rounded-xl transition-all whitespace-nowrap">
-          ← {backLabel}
-        </Link>
-        <div className="flex-1 min-w-0">
-          <h1 className="text-white font-extrabold text-base leading-none truncate"
-            style={{ fontFamily: 'var(--font-baloo)' }}>
+      <header className="el-topbar">
+        <Link href={backHref} className="el-back-btn">← {backLabel}</Link>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{
+            fontFamily: "'Baloo 2', cursive", color: '#fff',
+            fontSize: '1rem', fontWeight: 800, lineHeight: 1,
+            whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis'
+          }}>
             {title}
-          </h1>
-          <p className="text-slate-400 text-xs font-bold mt-0.5">{subtitle}</p>
+          </div>
+          <div style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.7rem', fontWeight: 700, marginTop: 3 }}>
+            {subtitle}
+          </div>
         </div>
       </header>
 
       {/* HERO */}
-      <section className="bg-gradient-to-r from-blue-500 to-purple-500 px-6 py-8 text-center text-white">
-        <h2 className="text-3xl font-extrabold" style={{ fontFamily: 'var(--font-baloo)' }}>
+      <section style={{
+        background: 'linear-gradient(135deg, #45aaf2 0%, #a55eea 100%)',
+        padding: '28px 24px',
+        textAlign: 'center',
+        color: '#fff',
+      }}>
+        <h1 style={{
+          fontFamily: "'Baloo 2', cursive",
+          fontSize: 'clamp(1.5rem, 5vw, 2.2rem)',
+          fontWeight: 800,
+        }}>
           {title}
-        </h2>
-        <p className="mt-1 font-bold opacity-80 text-sm">{subtitle}</p>
+        </h1>
+        <p style={{ opacity: 0.82, fontWeight: 600, marginTop: 5, fontSize: '0.9rem' }}>
+          {subtitle}
+        </p>
       </section>
 
       {/* TABS */}
-      <div className="bg-white border-b-2 border-slate-100 sticky top-14 z-40 shadow-sm">
-        <div className="flex overflow-x-auto scrollbar-none px-2">
+      <div style={{
+        background: '#fff',
+        borderBottom: '2.5px solid #f0f0f0',
+        position: 'sticky',
+        top: 57,
+        zIndex: 40,
+        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+      }}>
+        <div style={{
+          display: 'flex',
+          overflowX: 'auto',
+          padding: '0 8px',
+          scrollbarWidth: 'none',
+        }}>
           {tabs.map((tab, i) => (
             <button key={i} onClick={() => setActiveTab(i)}
-              className={`px-4 py-3 font-bold text-sm whitespace-nowrap border-b-4 transition-all flex-shrink-0
-                ${activeTab === i
-                  ? 'border-blue-400 text-blue-500'
-                  : 'border-transparent text-slate-400 hover:text-slate-600'}`}>
+              style={{
+                padding: '14px 16px',
+                fontWeight: 800,
+                fontSize: '0.85rem',
+                whiteSpace: 'nowrap',
+                border: 'none',
+                borderBottom: activeTab === i ? '3px solid #45aaf2' : '3px solid transparent',
+                background: 'none',
+                color: activeTab === i ? '#45aaf2' : '#aaa',
+                cursor: 'pointer',
+                transition: 'all 0.18s',
+                flexShrink: 0,
+              }}>
               {tab.label}
             </button>
           ))}
@@ -47,11 +81,21 @@ export default function UnitLayout({ title, subtitle, backHref, backLabel, tabs 
       </div>
 
       {/* CONTENT */}
-      <section className="flex-1 px-4 py-8 max-w-3xl mx-auto w-full">
+      <section style={{
+        flex: 1,
+        padding: '28px 16px 60px',
+        maxWidth: 720,
+        margin: '0 auto',
+        width: '100%',
+      }}>
         {tabs[activeTab].component}
       </section>
 
-      <footer className="text-center text-slate-400 text-xs py-6 font-bold border-t border-slate-200">
+      <footer style={{
+        textAlign: 'center', color: '#bbb',
+        fontSize: '0.75rem', fontWeight: 700,
+        padding: '20px', borderTop: '2px solid #f0f0f0',
+      }}>
         EnglishLand © 2025-2026 • MEB Türkiye Yüzyılı Maarif Modeli
       </footer>
 

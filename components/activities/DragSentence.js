@@ -12,20 +12,14 @@ export default function DragSentence({ sentences }) {
     }))
   )
 
-  function placeWord(si, word, fromPool) {
+  function placeWord(si, word) {
     if (games[si].solved) return
     const updated = [...games]
     const g = { ...updated[si] }
-    if (fromPool) {
-      g.pool = g.pool.filter((w, i) => {
-        if (w === word && !g.placed.includes(w)) return false
-        return true
-      })
-      // remove first occurrence from pool
-      const idx = g.pool.indexOf(word)
-      g.pool = [...g.pool]
-      g.placed = [...g.placed, word]
-    }
+    const idx = g.pool.indexOf(word)
+    if (idx === -1) return
+    g.pool = [...g.pool.slice(0, idx), ...g.pool.slice(idx + 1)]
+    g.placed = [...g.placed, word]
     updated[si] = { ...g, error: false }
     setGames(updated)
   }
@@ -62,68 +56,66 @@ export default function DragSentence({ sentences }) {
     setGames(updated)
   }
 
-  function handlePoolClick(si, word) {
-    const updated = [...games]
-    const g = { ...updated[si] }
-    const idx = g.pool.indexOf(word)
-    if (idx === -1) return
-    g.pool = [...g.pool.slice(0, idx), ...g.pool.slice(idx + 1)]
-    g.placed = [...g.placed, word]
-    updated[si] = { ...g, error: false }
-    setGames(updated)
-  }
-
   return (
     <div>
-      <h2 className="text-2xl font-extrabold text-slate-800 mb-1">🖱️ Build the Sentence!</h2>
-      <p className="text-slate-400 font-bold text-sm mb-6">Kelimelere tıkla, doğru cümleyi oluştur!</p>
+      <div className="el-section-title">🖱️ Build the Sentence!</div>
+      <div className="el-section-desc">Kelimelere tıkla, doğru cümleyi oluştur!</div>
 
-      <div className="flex flex-col gap-6">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {games.map((g, si) => (
-          <div key={si} className={`bg-white rounded-2xl p-6 shadow-md border-2 transition-all
-            ${g.solved ? 'border-green-300 bg-green-50' : g.error ? 'border-red-300' : 'border-transparent'}`}>
+          <div key={si} style={{
+            background: g.solved ? '#f0fff6' : '#fff',
+            borderRadius: 20, padding: '20px',
+            boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
+            border: `2.5px solid ${g.solved ? '#26de81' : g.error ? '#FF6B6B' : 'transparent'}`,
+            transition: 'all 0.2s',
+          }}>
 
-            <div className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-1">Cümle {si + 1}</div>
-            <div className="font-bold text-slate-500 text-sm mb-4">🇹🇷 {g.tr}</div>
+            <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#bbb', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 4 }}>
+              Cümle {si + 1}
+            </div>
+            <div style={{ fontWeight: 700, color: '#888', fontSize: '0.88rem', marginBottom: 14 }}>
+              🇹🇷 {g.tr}
+            </div>
 
             {/* DROP ZONE */}
-            <div className="min-h-14 border-2 border-dashed border-slate-200 rounded-xl p-3 flex flex-wrap gap-2 mb-4 bg-slate-50">
+            <div className="el-drop-zone">
               {g.placed.length === 0 && (
-                <span className="text-slate-300 text-sm font-bold self-center">Kelimelere tıkla...</span>
+                <span style={{ color: '#ccc', fontSize: '0.88rem', fontWeight: 700, alignSelf: 'center' }}>
+                  Kelimelere tıkla...
+                </span>
               )}
               {g.placed.map((word, wi) => (
                 <div key={wi} onClick={() => removeWord(si, wi)}
-                  className="bg-purple-500 text-white font-bold text-sm px-3 py-2 rounded-xl cursor-pointer hover:bg-purple-600 transition-all">
+                  className="el-chip el-chip-placed">
                   {word}
                 </div>
               ))}
             </div>
 
             {/* WORD POOL */}
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 14 }}>
               {g.pool.map((word, wi) => (
-                <div key={wi} onClick={() => handlePoolClick(si, word)}
-                  className="bg-white border-2 border-slate-200 text-slate-700 font-bold text-sm px-3 py-2 rounded-xl cursor-pointer hover:border-purple-400 hover:bg-purple-50 transition-all">
+                <div key={wi} onClick={() => placeWord(si, word)}
+                  className="el-chip el-chip-pool">
                   {word}
                 </div>
               ))}
             </div>
 
             {!g.solved && (
-              <div className="flex gap-2 flex-wrap">
-  <button onClick={() => checkSentence(si)}
-    className="bg-sky-400 hover:bg-sky-500 text-white font-bold text-sm px-4 py-2 rounded-full transition-all">
-    ✓ Kontrol Et
-  </button>
-  <button onClick={() => resetSentence(si)}
-    className="bg-slate-100 hover:bg-slate-200 text-slate-500 font-bold text-sm px-4 py-2 rounded-full transition-all">
-    ↩ Sıfırla
-  </button>
-</div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button onClick={() => checkSentence(si)} className="el-btn el-btn-blue">
+                  ✓ Kontrol Et
+                </button>
+                <button onClick={() => resetSentence(si)} className="el-btn el-btn-ghost">
+                  ↩ Sıfırla
+                </button>
+              </div>
             )}
 
-            {g.error && <div className="text-red-500 font-bold text-sm mt-2">❌ Kelime sırası yanlış, tekrar dene!</div>}
-            {g.solved && <div className="text-green-600 font-bold text-sm mt-2">🎉 Mükemmel! Doğru cümle!</div>}
+            {g.error && <div className="el-feedback-bad">❌ Kelime sırası yanlış, tekrar dene!</div>}
+            {g.solved && <div className="el-feedback-good">🎉 Mükemmel! Doğru cümle!</div>}
           </div>
         ))}
       </div>

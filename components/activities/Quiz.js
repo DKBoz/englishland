@@ -8,7 +8,7 @@ export default function Quiz({ questions }) {
   function handleAnswer(qi, chosen, correct) {
     if (answers[qi]) return
     const isCorrect = chosen === correct
-    setAnswers(prev => ({ ...prev, [qi]: { chosen, correct, isCorrect } }))
+    setAnswers(prev => ({ ...prev, [qi]: { chosen, isCorrect } }))
     if (isCorrect) setScore(prev => prev + 1)
   }
 
@@ -18,48 +18,89 @@ export default function Quiz({ questions }) {
   }
 
   return (
-    <div className="mt-12">
-      <h2 className="text-2xl font-extrabold text-slate-800 mb-1">✏️ Fill in the Blank!</h2>
-      <p className="text-slate-400 font-bold text-sm mb-6">Doğru kelimeyi seç!</p>
+    <div>
+      <div className="el-section-title">✏️ Fill in the Blank!</div>
+      <div className="el-section-desc">Doğru kelimeyi seç!</div>
 
-      <div className="bg-white rounded-2xl p-4 shadow-md flex items-center gap-4 mb-6">
-        <span className="font-bold text-slate-600">Puan:</span>
-        <span className="text-3xl font-extrabold text-green-500">{score}</span>
-        <span className="text-slate-400 font-bold">/ {questions.length}</span>
-        <button onClick={reset}
-          className="ml-auto bg-red-400 hover:bg-red-500 text-white font-bold text-sm px-4 py-2 rounded-full transition-all">
+      {/* SCORE BAR */}
+      <div style={{
+        background: '#fff', borderRadius: 16, padding: '14px 20px',
+        display: 'flex', alignItems: 'center', gap: 12,
+        boxShadow: '0 4px 16px rgba(0,0,0,0.08)', marginBottom: 20,
+      }}>
+        <span style={{ fontWeight: 700, color: '#888' }}>Puan:</span>
+        <span style={{
+          fontFamily: "'Baloo 2', cursive", fontSize: '1.8rem',
+          fontWeight: 800, color: '#26de81',
+        }}>{score}</span>
+        <span style={{ color: '#ccc', fontWeight: 700 }}>/ {questions.length}</span>
+        <button onClick={reset} className="el-btn el-btn-coral" style={{ marginLeft: 'auto' }}>
           🔄 Yenile
         </button>
       </div>
 
-      <div className="flex flex-col gap-4">
+      {/* QUESTIONS */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         {questions.map((q, qi) => {
           const answered = answers[qi]
+          const parts = q.sentence.split(q.answer)
+
           return (
-            <div key={qi} className="bg-white rounded-2xl p-6 shadow-md">
-              <div className="text-xs font-bold text-slate-400 uppercase tracking-wide mb-2">Soru {qi + 1}</div>
-              <div className="font-extrabold text-slate-800 mb-4 text-lg leading-relaxed">
-                {q.sentence.replace(q.answer, '______')}
+            <div key={qi} style={{
+              background: '#fff', borderRadius: 20, padding: '20px',
+              boxShadow: '0 4px 16px rgba(0,0,0,0.08)',
+              border: answered
+                ? answered.isCorrect
+                  ? '2.5px solid #26de81'
+                  : '2.5px solid #FF6B6B'
+                : '2.5px solid transparent',
+            }}>
+              <div style={{ fontSize: '0.7rem', fontWeight: 800, color: '#bbb', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 8 }}>
+                Soru {qi + 1}
               </div>
-              <div className="flex flex-wrap gap-2">
+              <div style={{ fontWeight: 800, color: '#1e1e2e', fontSize: '1rem', lineHeight: 1.6, marginBottom: 14 }}>
+                {parts[0]}
+                <span style={{
+                  display: 'inline-block',
+                  borderBottom: '3px solid #45aaf2',
+                  minWidth: 80, textAlign: 'center',
+                  color: '#45aaf2', fontFamily: "'Baloo 2', cursive",
+                  padding: '0 8px',
+                }}>
+                  {answered ? q.answer : '______'}
+                </span>
+                {parts[1]}
+              </div>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
                 {q.options.map(opt => {
-                  let style = 'bg-slate-50 border-2 border-slate-200 text-slate-700 hover:border-blue-300 hover:bg-blue-50'
+                  let bg = '#f5f5ff', border = '#e0e0f0', color = '#555'
                   if (answered) {
-                    if (opt === q.answer) style = 'bg-green-100 border-2 border-green-400 text-green-800'
-                    else if (opt === answered.chosen && !answered.isCorrect) style = 'bg-red-100 border-2 border-red-400 text-red-800'
-                    else style = 'bg-slate-50 border-2 border-slate-200 text-slate-400 opacity-50'
+                    if (opt === q.answer) { bg = '#e0fff0'; border = '#26de81'; color = '#1a9e5a' }
+                    else if (opt === answered.chosen && !answered.isCorrect) { bg = '#fff0f0'; border = '#FF6B6B'; color = '#cc4444' }
+                    else { bg = '#fafafa'; border = '#eee'; color = '#ccc' }
                   }
                   return (
-                    <button key={opt} onClick={() => handleAnswer(qi, opt, q.answer)}
+                    <button key={opt}
+                      onClick={() => handleAnswer(qi, opt, q.answer)}
                       disabled={!!answered}
-                      className={`${style} font-bold text-sm px-4 py-2 rounded-full transition-all`}>
+                      style={{
+                        padding: '9px 18px', borderRadius: 50,
+                        border: `2.5px solid ${border}`,
+                        background: bg, color,
+                        fontWeight: 700, fontSize: '0.9rem',
+                        cursor: answered ? 'default' : 'pointer',
+                        transition: 'all 0.15s',
+                        fontFamily: "'Nunito', sans-serif",
+                      }}>
                       {opt}
                     </button>
                   )
                 })}
               </div>
+
               {answered && (
-                <div className={`mt-3 text-sm font-bold ${answered.isCorrect ? 'text-green-500' : 'text-red-500'}`}>
+                <div className={answered.isCorrect ? 'el-feedback-good' : 'el-feedback-bad'}>
                   {answered.isCorrect ? '🎉 Doğru! Great job!' : `❌ Doğru cevap: "${q.answer}"`}
                 </div>
               )}
