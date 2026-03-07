@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
 const units = [
-  { num: 1, name: "Getting to Know You", tr: "Tanışma ve Kendini Tanıtma", emoji: "👋", topics: "Introducing yourself • Greetings • Numbers", locked: true },
+  { num: 1, name: "Getting to Know You", tr: "Tanışma ve Kendini Tanıtma", emoji: "👋", topics: "Introducing yourself • Greetings • Numbers", locked: false, href: "/grade5/unit1" },
   { num: 2, name: "My Town", tr: "Şehrim ve Çevrem", emoji: "🏙️", topics: "Places in town • Directions • There is/are", locked: true },
   { num: 3, name: "Games and Hobbies", tr: "Oyunlar ve Hobiler", emoji: "🎮", topics: "Free time • Can/Can't • How often?", locked: true },
   { num: 4, name: "Wild Animals", tr: "Vahşi Hayvanlar", emoji: "🦁", topics: "Habitats • Comparatives • Animal facts", locked: true },
@@ -59,7 +59,7 @@ export default function Grade5Page() {
         }}>
           <span style={{ fontSize: '1.4rem' }}>💡</span>
           <p style={{ fontSize: '0.85rem', fontWeight: 700, color: '#7a5f00' }}>
-            Demo sürümünde sadece <strong>Tema 8</strong> aktif. Diğer temalar yakında eklenecek!
+            Demo sürümünde <strong>Tema 1</strong> ve <strong>Tema 8</strong> aktif. Diğer temalar yakında eklenecek!
           </p>
         </div>
       </div>

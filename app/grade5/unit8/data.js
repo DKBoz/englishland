@@ -118,3 +118,31 @@ export const story = {
     },
   ]
 }
+
+export const readingText = {
+  title: "Ali's Holiday Plan",
+  paragraphs: [
+    {
+      text: "Ali and his family are going on a holiday to Antalya this summer. They are very excited! Ali's mum is packing the suitcase. She puts in sunscreen, clothes, and a camera.",
+      words: { holiday: "tatil", summer: "yaz", excited: "heyecanlı", suitcase: "bavul", sunscreen: "güneş kremi" }
+    },
+    {
+      text: "They travel to Antalya by plane. It is Ali's first time on a plane! He looks out of the window and sees the beautiful sunset over the clouds.",
+      words: { travel: "seyahat etmek", plane: "uçak", beautiful: "güzel", sunset: "gün batımı", clouds: "bulutlar" }
+    },
+    {
+      text: "At the beach, Ali wants to swim in the sea and collect seashells. His dad wants to explore the old city and visit a museum. His mum just wants to relax!",
+      words: { beach: "plaj", swim: "yüzmek", collect: "toplamak", explore: "keşfetmek", museum: "müze", relax: "dinlenmek" }
+    },
+    {
+      text: "Before they leave, Ali buys a souvenir magnet for his teacher. He puts it carefully in his bag next to his passport. 'I can't wait for our adventure!' says Ali happily.",
+      words: { souvenir: "hediyelik eşya", passport: "pasaport", adventure: "macera", carefully: "dikkatlice" }
+    },
+  ],
+  questions: [
+    { question: "Where is Ali's family going?", options: ["Istanbul", "Antalya", "Ankara", "Izmir"], answer: "Antalya" },
+    { question: "How do they travel?", options: ["By car", "By train", "By plane", "By bus"], answer: "By plane" },
+    { question: "What does Ali want to do at the beach?", options: ["Build sandcastles", "Swim and collect shells", "Read books", "Take photos"], answer: "Swim and collect shells" },
+    { question: "What does Ali buy for his teacher?", options: ["A book", "A souvenir magnet", "Sunscreen", "A camera"], answer: "A souvenir magnet" },
+  ]
+}

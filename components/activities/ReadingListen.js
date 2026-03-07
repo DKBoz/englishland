@@ -1,49 +1,7 @@
 'use client'
 import { useState } from 'react'
 
-const comprehensionQuestions = [
-  {
-    question: "Where is Ali's family going for their holiday?",
-    options: ["Istanbul", "Antalya", "Ankara", "Izmir"],
-    answer: "Antalya"
-  },
-  {
-    question: "How does Ali's family travel?",
-    options: ["By car", "By train", "By plane", "By bus"],
-    answer: "By plane"
-  },
-  {
-    question: "What does Ali want to do at the beach?",
-    options: ["Build sandcastles", "Swim and collect shells", "Read books", "Take photos only"],
-    answer: "Swim and collect shells"
-  },
-  {
-    question: "What does Ali pack in his suitcase?",
-    options: ["Only clothes", "Books and toys", "Sunscreen, passport and souvenirs", "Food and drinks"],
-    answer: "Sunscreen, passport and souvenirs"
-  },
-]
-
-const storyParagraphs = [
-  {
-    text: "Ali and his family are going on a holiday to Antalya this summer. They are very excited! Ali's mum is packing the suitcase. She puts in sunscreen, clothes, and a camera.",
-    words: { holiday: "tatil", summer: "yaz", excited: "heyecanlı", suitcase: "bavul", sunscreen: "güneş kremi" }
-  },
-  {
-    text: "They travel to Antalya by plane. It is Ali's first time on a plane! He looks out of the window and sees the beautiful sunset over the clouds.",
-    words: { travel: "seyahat etmek", plane: "uçak", beautiful: "güzel", sunset: "gün batımı", clouds: "bulutlar" }
-  },
-  {
-    text: "At the beach, Ali wants to swim in the sea and collect seashells. His dad wants to explore the old city and visit a museum. His mum just wants to relax!",
-    words: { beach: "plaj", swim: "yüzmek", collect: "toplamak", explore: "keşfetmek", museum: "müze", relax: "dinlenmek" }
-  },
-  {
-    text: "Before they leave, Ali buys a souvenir magnet for his teacher. He puts it carefully in his bag next to his passport. 'I can't wait for our adventure!' says Ali happily.",
-    words: { souvenir: "hediyelik eşya", passport: "pasaport", adventure: "macera", carefully: "dikkatlice" }
-  },
-]
-
-export default function ReadingListen() {
+export default function ReadingListen({ title, paragraphs, questions }) {
   const [highlighted, setHighlighted] = useState(null)
   const [answers, setAnswers] = useState({})
   const [score, setScore] = useState(0)
@@ -61,7 +19,7 @@ export default function ReadingListen() {
   }
 
   function speakAll() {
-    const fullText = storyParagraphs.map(p => p.text).join(' ')
+    const fullText = paragraphs.map(p => p.text).join(' ')
     speak(fullText)
   }
 
@@ -72,7 +30,7 @@ export default function ReadingListen() {
 
   function handleAnswer(qi, opt) {
     if (answers[qi]) return
-    const isCorrect = opt === comprehensionQuestions[qi].answer
+    const isCorrect = opt === questions[qi].answer
     setAnswers(prev => ({ ...prev, [qi]: { chosen: opt, isCorrect } }))
     if (isCorrect) setScore(prev => prev + 1)
   }
@@ -83,7 +41,7 @@ export default function ReadingListen() {
       <p key={pi} style={{ lineHeight: 2, marginBottom: 16 }}>
         {words.map((word, wi) => {
           const clean = word.toLowerCase().replace(/[^a-z]/g, '')
-          const tr = para.words[clean]
+          const tr = para.words[clean] || para.words[word.replace(/[^a-zA-Z]/g, '')]
           return (
             <span key={wi}>
               {tr ? (
@@ -91,13 +49,9 @@ export default function ReadingListen() {
                   onClick={() => setHighlighted(highlighted === `${pi}-${wi}` ? null : `${pi}-${wi}`)}
                   style={{
                     background: highlighted === `${pi}-${wi}` ? '#ffe066' : '#fff3b0',
-                    borderRadius: 6,
-                    padding: '2px 4px',
-                    cursor: 'pointer',
-                    fontWeight: 800,
-                    color: '#7a5f00',
-                    position: 'relative',
-                    display: 'inline-block',
+                    borderRadius: 6, padding: '2px 4px',
+                    cursor: 'pointer', fontWeight: 800, color: '#7a5f00',
+                    position: 'relative', display: 'inline-block',
                   }}>
                   {word}
                   {highlighted === `${pi}-${wi}` && (
@@ -138,7 +92,7 @@ export default function ReadingListen() {
       }}>
         <span style={{ fontSize: '2rem' }}>🎧</span>
         <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: 800, fontSize: '0.95rem' }}>Ali's Holiday Plan</div>
+          <div style={{ fontWeight: 800, fontSize: '0.95rem' }}>{title}</div>
           <div style={{ opacity: 0.7, fontSize: '0.78rem', fontWeight: 600 }}>
             {speaking ? '▶ Oynatılıyor...' : 'Dinlemek için tıkla'}
           </div>
@@ -172,7 +126,7 @@ export default function ReadingListen() {
         }}>
           💡 Sarı kelimelere tıkla → Türkçe çevirisini gör!
         </div>
-        {storyParagraphs.map((para, pi) => renderParagraph(para, pi))}
+        {paragraphs.map((para, pi) => renderParagraph(para, pi))}
       </div>
 
       {/* COMPREHENSION */}
@@ -190,7 +144,6 @@ export default function ReadingListen() {
           Hikayeyi anladın mı? Soruları cevapla!
         </div>
 
-        {/* SCORE */}
         <div style={{
           display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16,
           background: '#f5f5ff', borderRadius: 12, padding: '10px 16px',
@@ -200,18 +153,16 @@ export default function ReadingListen() {
             fontFamily: "'Baloo 2', cursive", fontSize: '1.5rem',
             fontWeight: 800, color: '#26de81',
           }}>{score}</span>
-          <span style={{ color: '#ccc', fontWeight: 700 }}>/ {comprehensionQuestions.length}</span>
+          <span style={{ color: '#ccc', fontWeight: 700 }}>/ {questions.length}</span>
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-          {comprehensionQuestions.map((q, qi) => {
+          {questions.map((q, qi) => {
             const answered = answers[qi]
             return (
               <div key={qi} style={{
                 borderRadius: 16, padding: '16px',
-                background: answered
-                  ? answered.isCorrect ? '#f0fff6' : '#fff5f5'
-                  : '#fafafa',
+                background: answered ? answered.isCorrect ? '#f0fff6' : '#fff5f5' : '#fafafa',
                 border: `2px solid ${answered ? answered.isCorrect ? '#26de81' : '#FF6B6B' : '#eee'}`,
               }}>
                 <div style={{ fontWeight: 800, color: '#333', marginBottom: 10, fontSize: '0.92rem' }}>
