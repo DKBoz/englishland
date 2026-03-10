@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 const units = [
   { num: 1, name: "Getting to Know You", tr: "Tanışma ve Kendini Tanıtma", emoji: "👋", topics: "Introducing yourself • Greetings • Numbers", locked: false, href: "/grade5/unit1" },
-  { num: 2, name: "My Town", tr: "Şehrim ve Çevrem", emoji: "🏙️", topics: "Places in town • Directions • There is/are", locked: true },
+  { num: 2, name: "My Town", tr: "Şehrim ve Çevrem", emoji: "🏙️", topics: "Places in town • Directions • There is/are", locked: false, href: "/grade5/unit2" },
   { num: 3, name: "Games and Hobbies", tr: "Oyunlar ve Hobiler", emoji: "🎮", topics: "Free time • Can/Can't • How often?", locked: true },
   { num: 4, name: "Wild Animals", tr: "Vahşi Hayvanlar", emoji: "🦁", topics: "Habitats • Comparatives • Animal facts", locked: true },
   { num: 5, name: "My TV", tr: "Televizyon ve Medya", emoji: "📺", topics: "TV shows • Likes & dislikes • Frequency", locked: true },
