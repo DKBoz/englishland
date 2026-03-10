@@ -1,14 +1,19 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function ReadingListen({ title, paragraphs, questions }) {
   const [highlighted, setHighlighted] = useState(null)
   const [answers, setAnswers] = useState({})
   const [score, setScore] = useState(0)
   const [speaking, setSpeaking] = useState(false)
+  const [speechSupported, setSpeechSupported] = useState(false)
+
+  useEffect(() => {
+    setSpeechSupported(typeof window !== 'undefined' && !!window.speechSynthesis)
+  }, [])
 
   function speak(text) {
-    if (!window.speechSynthesis) return
+    if (!speechSupported) return
     window.speechSynthesis.cancel()
     const utt = new SpeechSynthesisUtterance(text)
     utt.lang = 'en-GB'
@@ -19,6 +24,7 @@ export default function ReadingListen({ title, paragraphs, questions }) {
   }
 
   function speakAll() {
+    if (!speechSupported) return
     const fullText = paragraphs.map(p => p.text).join(' ')
     speak(fullText)
   }
@@ -94,21 +100,37 @@ export default function ReadingListen({ title, paragraphs, questions }) {
         <div style={{ flex: 1 }}>
           <div style={{ fontWeight: 800, fontSize: '0.95rem' }}>{title}</div>
           <div style={{ opacity: 0.7, fontSize: '0.78rem', fontWeight: 600 }}>
-            {speaking ? '▶ Oynatılıyor...' : 'Dinlemek için tıkla'}
+            {speechSupported
+              ? speaking ? '▶ Oynatılıyor...' : 'Dinlemek için tıkla'
+              : 'Okuma modu aktif'}
           </div>
         </div>
-        {speaking ? (
-          <button onClick={stopSpeaking} className="el-btn" style={{
-            background: 'rgba(255,255,255,0.2)', color: '#fff', border: '2px solid rgba(255,255,255,0.4)'
-          }}>
-            ⏹ Durdur
-          </button>
+
+        {speechSupported ? (
+          speaking ? (
+            <button onClick={stopSpeaking} className="el-btn" style={{
+              background: 'rgba(255,255,255,0.2)', color: '#fff',
+              border: '2px solid rgba(255,255,255,0.4)'
+            }}>
+              ⏹ Durdur
+            </button>
+          ) : (
+            <button onClick={speakAll} className="el-btn" style={{
+              background: 'rgba(255,255,255,0.2)', color: '#fff',
+              border: '2px solid rgba(255,255,255,0.4)'
+            }}>
+              ▶ Dinle
+            </button>
+          )
         ) : (
-          <button onClick={speakAll} className="el-btn" style={{
-            background: 'rgba(255,255,255,0.2)', color: '#fff', border: '2px solid rgba(255,255,255,0.4)'
+          <div style={{
+            background: 'rgba(255,255,255,0.15)',
+            borderRadius: 50, padding: '8px 14px',
+            fontSize: '0.78rem', fontWeight: 700,
+            color: 'rgba(255,255,255,0.7)',
           }}>
-            ▶ Dinle
-          </button>
+            📖 Okuma Modu
+          </div>
         )}
       </div>
 
